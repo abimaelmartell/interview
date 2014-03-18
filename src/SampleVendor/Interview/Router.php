@@ -36,4 +36,12 @@ class Router implements RouterInterface
 			return $response;
 		}
 	}
+
+	/**
+	 * Start dispatching requests
+	 */
+	public function run()
+	{
+		// TODO
+	}
 }
