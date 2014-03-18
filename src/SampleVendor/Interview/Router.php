@@ -15,7 +15,7 @@ class Router implements RouterInterface
 	/**
 	 * Base regex for paths (formatted for sprintf)
 	 */
-	const BASE_REGEX = "/%s\/?(.+)?/";
+	const BASE_REGEX = "/%s(\/[\w]+|\/|$)/";
 
 	/**
 	 * Adds a path with its callback
