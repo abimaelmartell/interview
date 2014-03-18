@@ -35,7 +35,7 @@ class Router implements RouterInterface
 			$params = [];
 			$this->callbacks[$request]($params);
 		} else {
-			throw new InterviewException("Error 404, route not found");
+			throw new InterviewException("Error 404, route \"{$request}\" not found");
 		}
 	}
 
@@ -44,7 +44,7 @@ class Router implements RouterInterface
 	 */
 	public function run()
 	{
-		$path = $this->getRequestValue("PATH_INFO");
+		$path = $this->getRequestValue("REQUEST_URI");
 
 		$this->dispatch($path);
 	}
