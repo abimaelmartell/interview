@@ -15,7 +15,7 @@ class Router implements RouterInterface
 	/**
 	 * Base regex for paths (formatted for sprintf)
 	 */
-	const BASE_REGEX = "/%s(\/[\w]+|\/|$)/";
+	const BASE_REGEX = "/%s(\/[\w\/]+|\/|$)/";
 
 	/**
 	 * Adds a path with its callback
@@ -41,8 +41,8 @@ class Router implements RouterInterface
 		foreach ($this->callbacks as $path => $callback) {
 			$regex = $this->buildRegex($path);
 
-			if (preg_match($regex, $request) == 1) {
-				$params = [];
+			if (preg_match($regex, $request, $matches) == 1) {
+				$params = array_filter(explode("/", $matches[1]));
 				$callback($params);
 
 				$found = true;
