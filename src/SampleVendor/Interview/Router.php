@@ -13,6 +13,11 @@ class Router implements RouterInterface
 	private $callbacks = [];
 
 	/**
+	 * Base regex for paths (formatted for sprintf)
+	 */
+	const BASE_REGEX = "/%s\/?(.+)?/";
+
+	/**
 	 * Adds a path with its callback
 	 * @param string   $path
 	 * @param callable $callback
@@ -31,10 +36,21 @@ class Router implements RouterInterface
 	 */
 	public function dispatch($request)
 	{
-		if (isset($this->callbacks[$request])) {
-			$params = [];
-			$this->callbacks[$request]($params);
-		} else {
+		$found = false;
+
+		foreach ($this->callbacks as $path => $callback) {
+			$regex = $this->buildRegex($path);
+
+			if (preg_match($regex, $request) == 1) {
+				$params = [];
+				$callback($params);
+
+				$found = true;
+				break; /* stop looping through paths */
+			}
+		}
+
+		if ($found == false) {
 			throw new InterviewException("Error 404, route \"{$request}\" not found");
 		}
 	}
@@ -57,5 +73,18 @@ class Router implements RouterInterface
 	private function getRequestValue($varname)
 	{
 		return isset($_SERVER[$varname]) ? $_SERVER[$varname] : NULL;
+	}
+
+	/**
+	 * Build the regex for the given path
+	 * @param string  $path
+	 * @return string The regex
+	 */
+	private function buildRegex($path)
+	{
+		$safe_path = preg_quote($path, '/');
+		$regex = sprintf(self::BASE_REGEX, $safe_path);
+
+		return $regex;
 	}
 }
