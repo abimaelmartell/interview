@@ -44,7 +44,10 @@ class Router implements RouterInterface
 			$regex = $this->buildRegex($path);
 
 			if (preg_match($regex, $request, $matches) == 1) {
+				// clean array and re-index
 				$params = array_filter(explode("/", $matches[1]));
+				$params = array_values($params);
+
 				$response = $callback($params);
 
 				$found = true;
