@@ -35,7 +35,6 @@ class RouterTest extends PHPUnit_Framework_TestCase
 			return isset($params[0]) ? $params[0] : NULL;
 		});
 
-
 		$this->assertEquals($router->dispatch('/very/test'), 'test');
 	}
 }
