@@ -11,3 +11,8 @@ To start the server run:
     php -S localhost:3000 app.php
 
 And point your browser to [localhost:3000](http://localhost:3000)
+
+## Tests
+Tests are written using `phpunit`, to run the tests run
+
+    vendor/bin/phpunit
